@@ -227,15 +227,15 @@ public class DBControllerTest {
 	@Test
 	public void getAllUniversitiesTest() {
 		int actualResult = db.getAllUniversities().size();
-		int expResult = 179;
+		int expResult = 186;
 		assertTrue("There are 179 universities", (actualResult == expResult));
 	}
 	
 	@Test
 	public void viewExistingUniversityTest() {
-		University expUniversity = new University("Abilene Christian University", "Texas", "Suburban", "private", 10000, 50, -1, -1, 12088, 70, 4000, 90, 80, 2, 3, 3);
-		University actualUniversity = db.viewExistingUniversity("Abilene Christian University");
-		assertTrue("Universities are the same", (expUniversity.toString() == actualUniversity.toString()));
+		University expUniversity = new University("ABILENE CHRISTIAN UNIVERSITY", "TEXAS", "SUBURBAN", "PRIVATE", 10000, 50, -1, -1, 12088, 70, 4000, 90, 80, 2, 3, 3);
+		University actualUniversity = db.viewExistingUniversity("ABILENE CHRISTIAN UNIVERSITY");
+		assertTrue("Universities are the same", (expUniversity.toString().equals(actualUniversity.toString())));
 	}
 	
 	@Test
@@ -260,6 +260,14 @@ public class DBControllerTest {
 	public void betweenDoubleTestFail()
 	{
 		assertEquals(db.betweenDouble(1.0,"4.0",3.0), false);
+	}
+	
+	@Test
+	public void adminEditUserTest() {
+		db.adminEditUser("akasnoopdawg", "ben", "east", "snoopdawg1", 't', 'N');
+		User testedUser = db.viewUser("akasnoopdawg");
+		assertTrue(testedUser.getLast().equals("east"));
+		db.adminEditUser("akasnoopdawg", "ben", "west", "snoopdawg1", 't', 'N');
 	}
 
 	@AfterClass
