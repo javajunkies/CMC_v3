@@ -1066,71 +1066,58 @@ public class DBController {
   }
 
 
- /** 
-   * sort a users saved schools by percent of students admitted 
-   * @param username   the username supplied for retrieving a list of saved schools
-   * 
-   * @return ArrayList a list sorted by Acceptances
-   */
- public ArrayList<University> sortByAcceptance(String username) {
-    ArrayList<University> byAcceptance = this.viewSavedSchools(username); 
-    for(int i = 0; i < byAcceptance.size(); i++) {
-    	for(int k = i + 1; k < byAcceptance.size(); k++) {
-    		if(byAcceptance.get(i).getPercentAdmitted() > byAcceptance.get(k).getPercentAdmitted()) {
-    			University temp = byAcceptance.get(i);
-    			byAcceptance.set(i, byAcceptance.get(k));
-    			byAcceptance.set(k, temp);
-    		}
-    	}
-    }
-    return byAcceptance;
- }
-    
-    
+	/**
+	 * sort a users saved schools by either number of students, expenses, or
+	 * admission rate, based on what the user selects
+	 * 
+	 * @param username
+	 *            the username supplied for retrieving a list of saved schools
+	 * 
+	 * @return ArrayList list sorted by the number of students
+	 */
+	public ArrayList<University> sort(String username, int toSortBy) {
 
- /** 
-   * sort a users saved schools by price
-   * 
-   * @param username the username supplied for retrieving a list of saved schools
-   * 
-   * @return ArrayList a list sorted by the expenses
-   */
- public ArrayList<University> sortByExpenses(String username) {
-    ArrayList<University> byExpenses = this.viewSavedSchools(username);
-    for(int i = 0; i < byExpenses.size(); i++) {
-    	for(int k = i + 1; k < byExpenses.size(); k++) {
-    		if(byExpenses.get(i).getExpenses() > byExpenses.get(k).getExpenses()) {
-    			University temp = byExpenses.get(i);
-    			byExpenses.set(i, byExpenses.get(k));
-    			byExpenses.set(k, temp);
-    		}
-    	}
-    }
-    return byExpenses;
- }	
-    
-
- /** 
-   *  sort a users saved schools by number of students 
-   *              attending the school
-   * 
-   * @param username the username supplied for retrieving a list of saved schools
-   * 
-   * @return ArrayList list sorted by the number of students
-   */
- public ArrayList<University> sortByNumStudents(String username) {
-    ArrayList<University> byNumStudents = this.viewSavedSchools(username);
-    for(int i = 0; i < byNumStudents.size(); i++) {
-    	for(int k = i + 1; k < byNumStudents.size(); k++) {
-    		if(byNumStudents.get(i).getNumStudents() > byNumStudents.get(k).getNumStudents()) {
-    	    	  University temp = byNumStudents.get(i);
-    		      byNumStudents.set(i, byNumStudents.get(k));
-    		      byNumStudents.set(k, temp);
-    		}
-    	}
-    }
-    return byNumStudents;
- }
+		if (toSortBy == 1) {
+			ArrayList<University> byNumStudents = this.viewSavedSchools(username);
+			for (int i = 0; i < byNumStudents.size(); i++) {
+				for (int k = i + 1; k < byNumStudents.size(); k++) {
+					if (byNumStudents.get(i).getNumStudents() > byNumStudents.get(k).getNumStudents()) {
+						University temp = byNumStudents.get(i);
+						byNumStudents.set(i, byNumStudents.get(k));
+						byNumStudents.set(k, temp);
+					}
+				}
+			}
+			return byNumStudents;
+		}
+		if (toSortBy == 2) {
+			ArrayList<University> byExpenses = this.viewSavedSchools(username);
+			for (int i = 0; i < byExpenses.size(); i++) {
+				for (int k = i + 1; k < byExpenses.size(); k++) {
+					if (byExpenses.get(i).getExpenses() > byExpenses.get(k).getExpenses()) {
+						University temp = byExpenses.get(i);
+						byExpenses.set(i, byExpenses.get(k));
+						byExpenses.set(k, temp);
+					}
+				}
+			}
+			return byExpenses;
+		}
+		if (toSortBy == 3) {
+			ArrayList<University> byAcceptance = this.viewSavedSchools(username);
+			for (int i = 0; i < byAcceptance.size(); i++) {
+				for (int k = i + 1; k < byAcceptance.size(); k++) {
+					if (byAcceptance.get(i).getPercentAdmitted() > byAcceptance.get(k).getPercentAdmitted()) {
+						University temp = byAcceptance.get(i);
+						byAcceptance.set(i, byAcceptance.get(k));
+						byAcceptance.set(k, temp);
+					}
+				}
+			}
+			return byAcceptance;
+		}
+		return null;
+	}
 }
 
 

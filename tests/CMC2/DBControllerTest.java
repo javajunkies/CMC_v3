@@ -18,6 +18,12 @@ import CMC2.User;
 public class DBControllerTest {
 
 	private static DBController db;
+
+	@Before
+	public void setUp() {
+		db.addUniversity("Joe Town U", "MN", "St. Joseph", "private", 3000, 50.0, 2000.0, 2000.0, 7000.0, 50.0, 4000, 75.0, 60.0, 4, 3, 2);
+		db.createUser("ben", "west", "benwest", "slimshady12", 'u');
+	}
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -157,11 +163,6 @@ public class DBControllerTest {
 	public void deactivateUserTest() {
 		db.deactivateUser("luser");
 	}
-	
-	@Test
-	public void sortByNumStudentsTest() {
-		db.sortByNumStudents("juser");
-	}
 
 	
 	@Test
@@ -174,34 +175,45 @@ public class DBControllerTest {
 	public void getRecommendationsTest() {
 	}
 
-	
-	@Test
-	public void editUnivInfo() {
-		//fill this out
-		db.editUnivInfo(school, state, location, control, numberOfStudents, percentFemales, SATVerbal, SATMath, expenses, percentFinancialAid, numberOfApplicants, percentAdmitted, percentEnrolled, academicsScale, socialScale, qualityOfLifeScale)
+	@Test 
+	public void removeFromSaved() {
+		db.createUser("ben", "west", "benwest", "slimshady12", 'u');
+		db.addToSaved("benwest", "BARD");
+		int expected = 1;
+	    int actual = db.removeFromSaved("benwest", "BARD");
+	    assertTrue("Remove From Saved: ", expected == actual);
 	}
 	
 	@Test
 	public void viewUserTest() {
-		db.viewUser("juser")
+		User user = new User("ben", "west", "benwest", "slimshady12", 'u', 'Y');
+		User result = db.viewUser("benwest");
+		assertTrue("View User Test: ", user.toString().equals(result.toString()));
 	}
 	
 	@Test 
-	public void isUserTest() {
-	    db.isUser("auser")
+	public void isUserTestValid() {
+	    boolean expected = true;
+	    boolean actual = db.isUser("nadmin");
+	    assertTrue("Is a user: ", expected == actual);
+	}
+	
+	@Test 
+	public void isUserTestInvalid() {
+	    boolean expected = false;
+	    boolean actual = db.isUser("swagyolo");
+	    assertTrue("Is not a user: ", expected == actual);
 	}
 
-	@Test 
-	public void removeFromSaved() {
-	    db.removeFromSaved("auser", "BUTLER")
-	}
 	
 	@Test
-	public void sort() {
-		//finish after sort is done
-		db.sort();
+	public void editUnivInfoTest() {
+      int expected = 1;
+      int actual = db.editUnivInfo("Joe Town U", "MN", "St. Joseph", "private", 8000, 50.0, 2000.0, 2000.0, 7000.0, 50.0, 4000, 75.0, 60.0, 4, 3, 2);
+      assertTrue("Edit Univ Info: ", expected == actual);
 	}
 	
+
 	@Test
 	public void removeUniversityTest() {
 		db.removeUniversity("Augsburg");
@@ -223,8 +235,10 @@ public class DBControllerTest {
 	public void viewExistingUniversityTest() {
 		University expUniversity = new University("Abilene Christian University", "Texas", "Suburban", "private", 10000, 50, -1, -1, 12088, 70, 4000, 90, 80, 2, 3, 3);
 		University actualUniversity = db.viewExistingUniversity("Abilene Christian University");
-		assertTrue("Universities are the same", (expUniversity == actualUniversity))
+		assertTrue("Universities are the same", (expUniversity.toString() == actualUniversity.toString()));
 	}
+	
+	
 
 	@AfterClass
 	public static void setUpAfterClass() throws Exception
@@ -233,5 +247,8 @@ public class DBControllerTest {
 		db.deleteUser("testAdd");
 		db.removeUniversity("testSchool");
 		db.removeUniversity("CSBSJU");
+		db.removeUniversity("Joe Town U");
+		db.deleteUser("ben");
 	}
+	
 }

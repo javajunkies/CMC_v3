@@ -336,34 +336,15 @@ import java.util.List;
 		  return result;
 	  }
 	  
-	  public String testSortByAcceptance(String username) {
-		  ArrayList<University> uni = ui1.sortByAcceptance(username);
+	  public String testSort(String username, int x) {
+		  ArrayList<University> uni = ui1.sort(username, x);
 		  String result = "";
 		  for(int i = 0; i < uni.size(); i++) {
 		    result += "\n" + uni.get(i).getSchool();
 	      }
 		 return result;
 	  }
-	  
-	  public String testSortByExpenses(String username) {
-		  ArrayList<University> uni = ui1.sortByExpenses(username);
-		  String result = "";
-		  for(int i = 0; i < uni.size(); i++) {
-		    result += "\n" + uni.get(i).getSchool();
-	      }
-		 return result;
-	  }
-	  
-	  public String testSortByNumStudents(String username) {
-		  ArrayList<University> uni = ui1.sortByNumStudents(username);
-		  String result = "";
-		  for(int i = 0; i < uni.size(); i++) {
-		    result += "\n" + uni.get(i).getSchool();
-	      }
-		 return result;
-	  }
-	 
-	  
+  
 
 	  public static void main(String[] args)
 	  {
@@ -445,20 +426,7 @@ import java.util.List;
 	    ui.saveSchool("testuser", "Butler");
 	    ui.saveSchool("testuser", "Augsburg");
 	    ui.saveSchool("testuser", "Bard");
-	    System.out.println(p.testSortByAcceptance("testuser") + '\n');
-	    
-	    
-	    System.out.println("Sort by Expenses: ");
-	    ui.saveSchool("testuser", "Butler");
-	    ui.saveSchool("testuser", "Augsburg");
-	    ui.saveSchool("testuser", "Bard");
-	    System.out.println(p.testSortByExpenses("testuser") + '\n');
-	    
-	    System.out.println("Sort by Number of Students: ");
-	    ui.saveSchool("testuser", "Butler");
-	    ui.saveSchool("testuser", "Augsburg");
-	    ui.saveSchool("testuser", "Bard");
-	    System.out.println(p.testSortByNumStudents("testuser") + '\n');
+	    System.out.println(p.testSort("testuser", 1) + '\n');
 	    
 	    
 	    
@@ -468,8 +436,6 @@ import java.util.List;
 	    //ui.getRecommendedList(school);              //takes type university
 	    //System.out.println("A1: No recommendations");
 	    System.out.println('\n');
-	    
-	    
 	    
 	    
 	    //U6 Remove Saved School
