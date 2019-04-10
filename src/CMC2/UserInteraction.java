@@ -185,11 +185,11 @@ public class UserInteraction
     return UserController.editUserInfo(userName, firstName, lastName, password);
 	  }
 	  else if(AccountController.checkPasswordCriteria(password) == 1) {
-		  return 0;
+		  throw new IllegalArgumentException("Invalid Password.");
 	  }
 	  else if(AccountController.checkPasswordCriteria(password) == 2) {
-		  return 2;
-	  }
+		  throw new IllegalArgumentException("Invalid Password.");
+		  }
 	  else{
 		  return 3;
 	  }

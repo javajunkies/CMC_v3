@@ -686,14 +686,21 @@ public class DBController {
    */
   public int removeUniversity(String name)
   {
+	 
    String[][] howMany = db.university_getNamesWithEmphases();
+   if(howMany.length > 0) {
    for(int i = 0; i < howMany.length; i++) {
     if(howMany[i][0].equals(name)) {
      String emphasis = howMany[i][1];
      db.university_removeUniversityEmphasis(name, emphasis);
     }
    }
-    return db.university_deleteUniversity(name);
+   }
+   	int result = db.university_deleteUniversity(name);
+    if(result != 1) {
+    	throw new IllegalArgumentException("Could not find university with name " + name);
+    }
+    return result;
   }
   
   /**
@@ -840,7 +847,11 @@ public class DBController {
         type = users[i][4].charAt(0);
       }
     }
-    return db.user_editUser(user, first, last, password, type, 'N');
+    int result = db.user_editUser(user, first, last, password, type, 'N');
+    if (result != 1) {
+    	throw new IllegalArgumentException("Could not find user with username " + username);
+    }
+    return result;
   }
   
   /**

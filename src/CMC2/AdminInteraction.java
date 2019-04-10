@@ -173,7 +173,7 @@ public class AdminInteraction{
 		return  adminController.addNewUser(firstName,lastName,username,password,type);
 	 }
 	 else if(adminController.isUniqueUsername(username) == false){
-		 return -2;
+		 throw new IllegalArgumentException("Username is already in use");
 	 }
 	 else {
 		 return -3;
