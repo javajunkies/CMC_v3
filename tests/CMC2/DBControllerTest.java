@@ -238,7 +238,29 @@ public class DBControllerTest {
 		assertTrue("Universities are the same", (expUniversity.toString() == actualUniversity.toString()));
 	}
 	
+	@Test
+	public void betweenIntTest()
+	{
+		assertEquals(db.betweenInt(1,"2",3), true);
+	}
 	
+	@Test
+	public void betweenIntTestFail()
+	{
+		assertEquals(db.betweenInt(1,"4",3), false);
+	}
+	
+	@Test
+	public void betweenDoubleTest()
+	{
+		assertEquals(db.betweenDouble(1.0,"2.0",3.0), true);
+	}
+	
+	@Test
+	public void betweenDoubleTestFail()
+	{
+		assertEquals(db.betweenDouble(1.0,"4.0",3.0), false);
+	}
 
 	@AfterClass
 	public static void setUpAfterClass() throws Exception
