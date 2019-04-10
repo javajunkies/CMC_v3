@@ -27,6 +27,7 @@ public class DBControllerTest {
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
+		
 		db = new DBController();
 	}
 	
@@ -44,8 +45,10 @@ public class DBControllerTest {
 	
 	@Test
 	public void createUserTest() {
-		int u = db.createUser("firstName", "lastName", "username", "password", 'u');
-		assertEquals(1, u);
+		int expected = 1;
+		int actual = db.createUser("Adding", "NewUser", "testUser1", "Password12", 'u');
+		assertEquals("actual was " + actual,expected, actual);
+		db.deleteUser("testUser1");
 	}
 		
 	@Test
@@ -75,45 +78,30 @@ public class DBControllerTest {
 		//ArrayList<University> searchTest = db.searchUniversities("A", "", false, "", "",0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0.0,0.0,0.0,0.0,0,0,0,0,0,0);
 		
 //		for (int i = 0; i!= searchTest.size();i++)
-//		{
-//			System.out.println(searchTest.get(i));
-//		}
+	//	{
+////			System.out.println(searchTest.get(i));
+//	}
 //		System.out.println(searchTest.size());
-		
+//		
 		assertEquals(searchTest.toString(), expected.toString());
 	}
 	
 	@Test
 	public void testRemoveUniversity() {
-		int remove = db.removeUniversity("AUGSBURG");
-		assertTrue("University removed", remove!=0 && remove!=-1);
-		db.addUniversity("AUGSBURG", "MINNESOTA", "SMALL-CITY", "PRIVATE" , 10000, 43, 420, 490, 29991, 80, 4000, 85, 50, 1, 3, 4);
+		 db.addUniversity("Fake", "MINN", "CITY", "Private", 1, 1, 10, 10, 10, 10, 10, 10, 10, 3, 2, 2);
+		  int expected = 1;
+		  int actual = db.removeUniversity("Fake");
+		  assertEquals(expected, actual);
 	}
 	
 	
-	@Test
-	public void testAddUniversity() {
-		int add = db.addUniversity("ADDED", "MINNESOTA", "SMALL-CITY", "PRIVATE", 555,
-	            44, 342, 456, 6653, 
-	            66, 6688, 88, 
-	            55, 4, 3, 1);
-		assertTrue("University added.", add > 0);
-		db.removeUniversity("ADDED");
-	}
 	
 	@Test
 	public void getAllUsersTest() {
-		ArrayList<String> expected = new ArrayList<String>();
-		expected.add("John");
-		expected.add("Lynn");
-		expected.add("Noreen");
-		expected.add("test");
+		int expected = 14;
 		ArrayList<User> r = db.getAllUsers();
-		ArrayList<String> actual = new ArrayList<String>();
-		for(int i = 0; i < r.size(); i++) {
-			actual.add(r.get(i).getFirst());
-		}
-		assertEquals(expected.toString(), actual.toString());
+		int actual = r.size();
+		assertEquals(expected, actual);
 	}
 	
 	@Test
@@ -167,8 +155,10 @@ public class DBControllerTest {
 	
 	@Test
 	public void addUniversityTest() {
-		int expResult = db.addUniversity("CSBSJU", "MN", "St. Joseph", "private", 3000, 50.0, 2000.0, 2000.0, 7000.0, 50.0, 4000, 75.0, 60.0, 4, 3, 2);
-		assertEquals("Expected Result = 1", expResult, 1);
+		  int expected = 1;
+		  int actual = db.addUniversity("Fake", "MINN", "CITY", "Private", 1, 1, 10, 10, 10, 10, 10, 10, 10, 3, 2, 2);
+		  assertEquals(expected, actual);
+		  db.removeUniversity("Fake");
 	}
 
 	@Test
@@ -216,7 +206,10 @@ public class DBControllerTest {
 
 	@Test
 	public void removeUniversityTest() {
-		db.removeUniversity("Augsburg");
+		db.addUniversity("Fake", "MINN", "CITY", "Private", 1, 1, 10, 10, 10, 10, 10, 10, 10, 3, 2, 2);
+		  int expected = 1;
+		  int actual = db.removeUniversity("Fake");
+		  assertEquals(expected, actual);
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
@@ -227,15 +220,15 @@ public class DBControllerTest {
 	@Test
 	public void getAllUniversitiesTest() {
 		int actualResult = db.getAllUniversities().size();
-		int expResult = 179;
-		assertTrue("There are 179 universities", (actualResult == expResult));
+		int expResult = 186;
+		assertEquals(actualResult, expResult);
 	}
 	
 	@Test
 	public void viewExistingUniversityTest() {
-		University expUniversity = new University("Abilene Christian University", "Texas", "Suburban", "private", 10000, 50, -1, -1, 12088, 70, 4000, 90, 80, 2, 3, 3);
-		University actualUniversity = db.viewExistingUniversity("Abilene Christian University");
-		assertTrue("Universities are the same", (expUniversity.toString() == actualUniversity.toString()));
+		University expUniversity = new University("ABILENE CHRISTIAN UNIVERSITY", "TEXAS", "SUBURBAN", "PRIVATE", 10000, 50, -1, -1, 12088, 70, 4000, 90, 80, 2, 3, 3);
+		University actualUniversity = db.viewExistingUniversity("ABILENE CHRISTIAN UNIVERSITY");
+		assertTrue(expUniversity.toString() + actualUniversity.toString(), (expUniversity.toString().equals(actualUniversity.toString())));
 	}
 	
 	@Test
@@ -268,7 +261,6 @@ public class DBControllerTest {
 		db.deleteUser("username");
 		db.deleteUser("testAdd");
 		db.removeUniversity("testSchool");
-		db.removeUniversity("CSBSJU");
 		db.removeUniversity("Joe Town U");
 		db.deleteUser("ben");
 	}

@@ -31,7 +31,7 @@ public class DBController {
   { 
     String[][] users = db.user_getUsers();
     for(int i = 0; i < users.length; i++) {
-      if(users[i][2].equals(username))e {
+      if(users[i][2].equals(username)) {
         return true;
       }
     }
@@ -686,14 +686,21 @@ public class DBController {
    */
   public int removeUniversity(String name)
   {
+	 
    String[][] howMany = db.university_getNamesWithEmphases();
+   if(howMany.length > 0) {
    for(int i = 0; i < howMany.length; i++) {
     if(howMany[i][0].equals(name)) {
      String emphasis = howMany[i][1];
      db.university_removeUniversityEmphasis(name, emphasis);
     }
    }
-    return db.university_deleteUniversity(name);
+   }
+   	int result = db.university_deleteUniversity(name);
+    if(result != 1) {
+    	throw new IllegalArgumentException("Could not find university with name " + name);
+    }
+    return result;
   }
   
   /**
