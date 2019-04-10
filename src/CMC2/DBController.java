@@ -847,7 +847,11 @@ public class DBController {
         type = users[i][4].charAt(0);
       }
     }
-    return db.user_editUser(user, first, last, password, type, 'N');
+    int result = db.user_editUser(user, first, last, password, type, 'N');
+    if (result != 1) {
+    	throw new IllegalArgumentException("Could not find user with username " + username);
+    }
+    return result;
   }
   
   /**
@@ -895,8 +899,7 @@ public class DBController {
 	 * sort a users saved schools by either number of students, expenses, or
 	 * admission rate, based on what the user selects
 	 * 
-	 * @param username
-	 *            the username supplied for retrieving a list of saved schools
+	 * @param username the username supplied for retrieving a list of saved schools
 	 * 
 	 * @return ArrayList list sorted by the number of students
 	 */

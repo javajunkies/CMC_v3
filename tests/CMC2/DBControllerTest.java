@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 
-import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -98,7 +97,7 @@ public class DBControllerTest {
 	
 	@Test
 	public void getAllUsersTest() {
-		int expected = 14;
+		int expected = 15;
 		ArrayList<User> r = db.getAllUsers();
 		int actual = r.size();
 		assertEquals(expected, actual);
@@ -109,6 +108,47 @@ public class DBControllerTest {
 		db.createUser("TestAdd", "ToSaved", "testAdd", "Password1", 'u');
 		int expected = 1;
 		int actual = db.addToSaved("testAdd", "Augsburg");
+		assertTrue("Should return " + expected + " but returned " + actual, expected == actual);
+	}
+	
+	@Test
+	public void alreadyOnaddToSavedTest() {
+		db.createUser("TestAddtesting", "ToSaved", "testAdd", "Password1", 'u');
+		int expected = -1;
+		db.addToSaved("testAddtesting", "Augsburg");
+		int actual = db.addToSaved("testAddtesting", "Augsburg");
+		assertTrue("Should return " + expected + " but returned " + actual, expected == actual);
+	}
+	
+	@Test
+	public void InvalidSchooladdToSavedTest() {
+		db.createUser("TestAddtest", "ToSaved", "testAdd", "Password1", 'u');
+		int expected = -1;
+		int actual = db.addToSaved("testAddtest", "fdsa");
+		assertTrue("Should return " + expected + " but returned " + actual, expected == actual);
+	}
+	
+	@Test
+	public void NoUnivaddToSavedTest() {
+		db.createUser("TestAddtest", "ToSaved", "testAdd", "Password1", 'u');
+		int expected = -1;
+		int actual = db.addToSaved("testAddtest", "");
+		assertTrue("Should return " + expected + " but returned " + actual, expected == actual);
+	}
+	
+	@Test
+	public void NoUseraddToSavedTest() {
+		db.createUser("TestAddtest", "ToSaved", "testAdd", "Password1", 'u');
+		int expected = -1;
+		int actual = db.addToSaved("", "Bard");
+		assertTrue("Should return " + expected + " but returned " + actual, expected == actual);
+	}
+	
+	@Test
+	public void InvalidUseraddToSavedTest() {
+		db.createUser("TestAddtest", "ToSaved", "testAdd", "Password1", 'u');
+		int expected = -1;
+		int actual = db.addToSaved("fdadf", "Bard");
 		assertTrue("Should return " + expected + " but returned " + actual, expected == actual);
 	}
 	
@@ -149,8 +189,26 @@ public class DBControllerTest {
 	
 	@Test
 	public void deactivateUserTest() {
-		db.deactivateUser("luser");
+		db.createUser("john", "sals", "jsals", "Password1", 'u');
+		int expected = 1;
+		int actual = db.deactivateUser("jsals");
+		assertEquals(expected, actual);
 	}
+	
+	 @Test(expected = IllegalArgumentException.class)
+	public void InvalidUsernamedeactivateUserTest() {
+		db.deactivateUser("fdnsof");
+	}
+	
+	@Test
+	public void alreadydeactivateUserTest() {
+		int expected = 1;
+		db.createUser("john", "sals", "jsals", "Password1", 'u');
+		db.deactivateUser("jsals");
+		int actual = db.deactivateUser("jsals");
+		assertEquals(expected, actual);
+	}
+
 
 	
 	@Test
@@ -184,14 +242,14 @@ public class DBControllerTest {
 	@Test 
 	public void isUserTestValid() {
 	    boolean expected = true;
-	    boolean actual = db.isUser("nadmin");
+	    boolean actual = db.isUser("juser");
 	    assertTrue("Is a user: ", expected == actual);
 	}
 	
 	@Test 
 	public void isUserTestInvalid() {
 	    boolean expected = false;
-	    boolean actual = db.isUser("swagyolo");
+	    boolean actual = db.isUser("swagyola");
 	    assertTrue("Is not a user: ", expected == actual);
 	}
 
@@ -222,6 +280,7 @@ public class DBControllerTest {
 		int actualResult = db.getAllUniversities().size();
 		int expResult = 186;
 		assertEquals(actualResult, expResult);
+
 	}
 	
 	@Test
@@ -254,15 +313,26 @@ public class DBControllerTest {
 	{
 		assertEquals(db.betweenDouble(1.0,"4.0",3.0), false);
 	}
+	
+	@Test
+	public void adminEditUserTest() {
+		db.adminEditUser("akasnoopdawg", "ben", "east", "snoopdawg1", 't', 'N');
+		User testedUser = db.viewUser("akasnoopdawg");
+		assertTrue(testedUser.getLast().equals("east"));
+		db.adminEditUser("akasnoopdawg", "ben", "west", "snoopdawg1", 't', 'N');
+	}
 
 	@AfterClass
 	public static void setUpAfterClass() throws Exception
 	{
 		db.deleteUser("username");
 		db.deleteUser("testAdd");
+		db.deleteUser("testAddtest");
+		db.deleteUser("testAddtesting");
 		db.removeUniversity("testSchool");
 		db.removeUniversity("Joe Town U");
 		db.deleteUser("ben");
+		db.deleteUser("jsals");
 	}
 	
 }

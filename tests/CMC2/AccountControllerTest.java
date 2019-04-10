@@ -5,6 +5,7 @@ package CMC2;
 
 import static org.junit.Assert.*;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -25,11 +26,6 @@ public class AccountControllerTest {
 	 * @throws java.lang.Exception
 	 */
 	
-	@Before
-	public void setUp() {
-		db.createUser("ben", "west", "benwest", "slimshady12", 'u');
-	}
-	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		ac = new AccountController();
@@ -39,35 +35,35 @@ public class AccountControllerTest {
 	
 	@Test
 	public void testRegister() {
-		int expected = 1; 
-		int actual = ac.register("ben1", "west1", "bwest1", "password12");
-		assertTrue("Register ", expected == actual);
+		int expected = 0; 
+		int actual = ac.register("ben2", "west2", "bwest2", "password122");
+		assertEquals(expected, actual);
 	}
 	
 	@Test
 	public void testRegisterNotUniqueUsername() {
-		int expected = 1;
+		int expected = 0;
 		int actual = ac.register("Snoopdawg", "smith", "juser", "password12");
 		assertTrue("Not Unique username ", expected == actual);
 	}
 	
 	@Test
 	public void testRegisterInvalidPassword() {
-		int expected = 1;
-		int actual = ac.register("Snoopdawg1", "smith", "juser", "passw");
+		int expected = 0;
+		int actual = ac.register("Snoopdawg1", "smith", "username3", "passw");
 		assertTrue("Not Unique username ", expected == actual);
 	}
 
 	@Test
-	public void testIsNotUniqueUsername(String username) {
+	public void testIsNotUniqueUsername() {
 		boolean expected = false; 
-		boolean actual = ac.isUniqueUsername("ben"); 
+		boolean actual = ac.isUniqueUsername("juser"); 
 		assertTrue("Not unique Username ", expected == actual);
 	}
 	
 	
 	@Test
-	public void testIsUniqueUsername(String username) {
+	public void testIsUniqueUsername() {
 		boolean expected = true; 
 		boolean actual = ac.isUniqueUsername("lmnop");
 		assertTrue("Not unique username", expected == actual);
@@ -76,19 +72,56 @@ public class AccountControllerTest {
 	@Test
 	public void checkPasswordMatchValid() {
 		boolean expected = true;
-		boolean actual = ac.checkPasswordMatch(password, password1)
+		boolean actual = ac.checkPasswordMatch("password8", "password8");
+		assertTrue("Check Password: ", expected == actual);
 	}
 	
 	@Test
 	public void checkPasswordMatchInvalid() {
-		
+		boolean expected = false;
+		boolean actual = ac.checkPasswordMatch("password13", "password1");
+		assertTrue("Chack password Invalid: ", expected == actual);
+	}
+	
+	@Test 
+	public void checkPasswordCriteriaTestTooManyChars() {
+		int expected = 1;
+		int actual = ac.checkPasswordCriteria("pass4");
+		assertTrue("Check Password > 8 Characters", expected == actual);
+	}
+	
+	@Test 
+	public void checkPasswordCriteriaTestNoLetters() {
+		int expected = 2;
+		int actual = ac.checkPasswordCriteria("12345678");
+		assertTrue("Check Password No Letters", expected == actual);
+	}
+	
+	@Test 
+	public void checkPasswordCriteriaTestNoNumbers() {
+		int expected = 3;
+		int actual = ac.checkPasswordCriteria("passwwoood");
+		assertTrue("Check Password No Numbers", expected == actual);
+	}
+	
+	@Test 
+	public void checkPasswordCriteriaTesthasBoth() {
+		int expected = 0;
+		int actual = ac.checkPasswordCriteria("password9");
+		assertTrue("Check Password Valid", expected == actual);
+	}
+	
+	@Test 
+	public void checkPasswordCriteriaTestNoneMet() {
+		int expected = 1;
+		int actual = ac.checkPasswordCriteria(""); //should be &%*(^)).
+		assertTrue("Check Password no letter no number", expected == actual);
 	}
 	
 	@After
-	public void after() {
-		
+	public void setUpAfterClass()  {
+		db.deleteUser("ben2");
 	}
-	
 }
 	
 
