@@ -15,12 +15,14 @@ public class UseCaseTesting {
  private static UserInteraction ui;
  private static AdminInteraction ai;
  private static DBController db;
+ private static UserController uc;
  
  @BeforeClass
  public static void setUpBeforeClass() throws Exception {
   ui = new UserInteraction();
   ai = new AdminInteraction();
   db = new DBController();
+  uc = new UserController();
   db.createUser("UseCase", "Testing", "testUser", "Password1", 'u');
   
  }
@@ -316,13 +318,13 @@ public class UseCaseTesting {
   ai.adminEditUser("UseCase", "Testing", "testUser", "Password1", 'u', 'Y');
  }
  
-/* @Test
+@Test
  public void testU22Logff() {
   boolean expResult = false;
-  ui.login("testUser", "Password1");
-  ui.logoff();
-  boolean actualResult = ui.isLoggedIn();
+  uc.login("testUser", "Password1");
+  uc.logoff();
+  boolean actualResult = uc.isLoggedIn();
   assertEquals(expResult, actualResult);
- }*/
+ }
 
 }
