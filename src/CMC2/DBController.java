@@ -31,7 +31,7 @@ public class DBController {
   { 
     String[][] users = db.user_getUsers();
     for(int i = 0; i < users.length; i++) {
-      if(users[i][2].equals(username))e {
+      if(users[i][2].equals(username)) {
         return true;
       }
     }
