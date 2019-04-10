@@ -213,7 +213,7 @@ public class AdminController {
                                double percentFinancialAid, int numberOfApplicants, double percentAdmitted, double percentEnrolled, 
                                int academicsScale, int socialScale, int qualityOfLifeScale) {
 	  
-	/*
+	
 	  boolean nameChange = false;
 	  for(University university : dbcontroller.getAllUniversities()) {
 		  if(school.equals(university.getSchool())) {
@@ -223,7 +223,9 @@ public class AdminController {
 	  }
 
 
-  */
+  if(nameChange == true || school.equals("")) {
+	  throw new IllegalArgumentException("Invalid school name.");
+  }
 	  if(state.equals("")) {
 		  throw new IllegalArgumentException("No state entered.");
 	  }

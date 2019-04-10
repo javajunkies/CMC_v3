@@ -301,7 +301,7 @@ public class AdminControllerTest {
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testEditUniversityInvalidSchool() {
-		ac.editUniversity("AUGSBURG", "MINNESOTA", "SMALL-CITY", "PRIVATE", 555,
+		ac.editUniversity("", "MINNESOTA", "SMALL-CITY", "PRIVATE", 555,
 	            44, 342, 456, 6653, 
 	            66, 6688, 88, 
 	            55, 4, 3, 1);
