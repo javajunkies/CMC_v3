@@ -255,14 +255,14 @@ public class DBControllerTest {
 	@Test 
 	public void isUserTestValid() {
 	    boolean expected = true;
-	    boolean actual = db.isUser("nadmin");
+	    boolean actual = db.isUser("juser");
 	    assertTrue("Is a user: ", expected == actual);
 	}
 	
 	@Test 
 	public void isUserTestInvalid() {
 	    boolean expected = false;
-	    boolean actual = db.isUser("swagyolo");
+	    boolean actual = db.isUser("swagyola");
 	    assertTrue("Is not a user: ", expected == actual);
 	}
 
@@ -289,7 +289,8 @@ public class DBControllerTest {
 	public void getAllUniversitiesTest() {
 		int actualResult = db.getAllUniversities().size();
 		int expResult = 186;
-		assertTrue("There are 179 universities", (actualResult == expResult));
+		//assertEquals(actualResult, expResult);
+		assertTrue("There are 186 universities", (actualResult == expResult));
 	}
 	
 	@Test
