@@ -125,6 +125,47 @@ public class DBControllerTest {
 	}
 	
 	@Test
+	public void alreadyOnaddToSavedTest() {
+		db.createUser("TestAddtesting", "ToSaved", "testAdd", "Password1", 'u');
+		int expected = -1;
+		db.addToSaved("testAddtesting", "Augsburg");
+		int actual = db.addToSaved("testAddtesting", "Augsburg");
+		assertTrue("Should return " + expected + " but returned " + actual, expected == actual);
+	}
+	
+	@Test
+	public void InvalidSchooladdToSavedTest() {
+		db.createUser("TestAddtest", "ToSaved", "testAdd", "Password1", 'u');
+		int expected = -1;
+		int actual = db.addToSaved("testAddtest", "fdsa");
+		assertTrue("Should return " + expected + " but returned " + actual, expected == actual);
+	}
+	
+	@Test
+	public void NoUnivaddToSavedTest() {
+		db.createUser("TestAddtest", "ToSaved", "testAdd", "Password1", 'u');
+		int expected = -1;
+		int actual = db.addToSaved("testAddtest", "");
+		assertTrue("Should return " + expected + " but returned " + actual, expected == actual);
+	}
+	
+	@Test
+	public void NoUseraddToSavedTest() {
+		db.createUser("TestAddtest", "ToSaved", "testAdd", "Password1", 'u');
+		int expected = -1;
+		int actual = db.addToSaved("", "Bard");
+		assertTrue("Should return " + expected + " but returned " + actual, expected == actual);
+	}
+	
+	@Test
+	public void InvalidUseraddToSavedTest() {
+		db.createUser("TestAddtest", "ToSaved", "testAdd", "Password1", 'u');
+		int expected = -1;
+		int actual = db.addToSaved("fdadf", "Bard");
+		assertTrue("Should return " + expected + " but returned " + actual, expected == actual);
+	}
+	
+	@Test
 	public void deleteUserTest() {
 		db.createUser("john", "west", "jwest", "Password2", 'u');
 		int expected = 1;
@@ -161,8 +202,28 @@ public class DBControllerTest {
 	
 	@Test
 	public void deactivateUserTest() {
-		db.deactivateUser("luser");
+		db.createUser("john", "sals", "jsals", "Password1", 'u');
+		int expected = 1;
+		int actual = db.deactivateUser("jsals");
+		assertEquals(expected, actual);
 	}
+	
+	@Test
+	public void InvalidUsernamedeactivateUserTest() {
+		int expected = -1;
+		int actual = db.deactivateUser("fdnsof");
+		assertEquals(expected, actual);
+	}
+	
+	@Test
+	public void alreadydeactivateUserTest() {
+		int expected = 1;
+		db.createUser("john", "sals", "jsals", "Password1", 'u');
+		db.deactivateUser("jsals");
+		int actual = db.deactivateUser("jsals");
+		assertEquals(expected, actual);
+	}
+
 
 	
 	@Test
@@ -234,10 +295,9 @@ public class DBControllerTest {
 	
 	@Test
 	public void viewExistingUniversityTest() {
-		University expUniversity = new University("Abilene Christian University", "Texas", "Suburban", "private", 10000, 50, -1, -1, 12088, 70, 4000, 90, 80, 2, 3, 3);
-		University actualUniversity = db.viewExistingUniversity("Abilene Christian University");
-		assertEquals(expUniversity.toString(), actualUniversity.toString());
-		//assertTrue("Universities are the same", (expUniversity.toString() == actualUniversity.toString()));
+		University expUniversity = new University("ABILENE CHRISTIAN UNIVERSITY", "TEXAS", "SUBURBAN", "PRIVATE", 10000, 50, -1, -1, 12088, 70, 4000, 90, 80, 2, 3, 3);
+		University actualUniversity = db.viewExistingUniversity("ABILENE CHRISTIAN UNIVERSITY");
+		assertTrue("Universities are the same", (expUniversity.toString().equals(actualUniversity.toString())));
 	}
 	
 	@Test
@@ -263,12 +323,22 @@ public class DBControllerTest {
 	{
 		assertEquals(db.betweenDouble(1.0,"4.0",3.0), false);
 	}
+	
+	@Test
+	public void adminEditUserTest() {
+		db.adminEditUser("akasnoopdawg", "ben", "east", "snoopdawg1", 't', 'N');
+		User testedUser = db.viewUser("akasnoopdawg");
+		assertTrue(testedUser.getLast().equals("east"));
+		db.adminEditUser("akasnoopdawg", "ben", "west", "snoopdawg1", 't', 'N');
+	}
 
 	@AfterClass
 	public static void setUpAfterClass() throws Exception
 	{
 		db.deleteUser("username");
 		db.deleteUser("testAdd");
+		db.deleteUser("testAddtest");
+		db.deleteUser("testAddtesting");
 		db.removeUniversity("testSchool");
 		db.removeUniversity("CSBSJU");
 		db.removeUniversity("Joe Town U");

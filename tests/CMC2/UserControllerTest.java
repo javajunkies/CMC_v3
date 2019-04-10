@@ -5,16 +5,9 @@ package CMC2;
 
 import static org.junit.Assert.*;
 
-import org.junit.After;
 import org.junit.AfterClass;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import CMC2.DBController;
-import CMC2.University;
-import CMC2.User;
-import CMC2.UserController;
 
 import java.util.ArrayList;
 
@@ -79,7 +72,7 @@ public class UserControllerTest {
 		double expResult = 29991.0;
 		University halfResult = UC.viewExistingUniversity("Augsburg");
 		double actualResult = halfResult.getExpenses();
-		assertTrue(expResult == actualResult);
+		assertEquals(expResult, actualResult);
 	}
 	
 	@Test
@@ -91,7 +84,7 @@ public class UserControllerTest {
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void InvalidAccountSaveSchooltest() {
-		UC.saveSchool("accountUsernamefdsa", "Augsburg");
+		UC.saveSchool("accountUsername", "Augsburg");
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
@@ -121,7 +114,7 @@ public class UserControllerTest {
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void InvalidPasswordeditUserInfotest() {
-		UC.editUserInfo("Tom", "Wolff", "accountUsername", " f");
+		UC.editUserInfo("accountUsername", "Tom", "Wolff", " f");
 	}
 
 	
@@ -155,6 +148,35 @@ public class UserControllerTest {
 		expected.add(Uni);
 		ArrayList<University> searchTest = db.searchUniversities("ber", "calif", false, "urb", "st", 0 ,40000, 0.0, 45.0, 0.0, 530.0, 0.0, 600.0, 0.0, 15328.0, 0.0, 0.0, 0, 15000, 0.0, 50.0, 0.0, 70.0, 0, 5, 0, 3, 0, 3);
 		assertEquals(searchTest.toString(), expected.toString());
+	}
+	
+	@Test
+	public void getRecommendationsTest() {
+		//not working properly
+	}
+	
+	@Test
+	public void sortTest() {
+		//
+	}
+	
+	@Test
+	public void setCurrentUserTest() {
+		User T = new User("johnny", "wolff", "accountUsername", "Password1", 'u', 'y');
+		UC.setCurrentUser(T);
+		User expected = T;
+		User actual = UC.getCurrentUser();
+		assertEquals(expected, actual);
+	}
+	
+	
+	@Test
+	public void getCurrentUserTest() {
+		User T = new User("johnny", "wolff", "accountUsername", "Password1", 'u', 'y');
+		UC.setCurrentUser(T);
+		User expected = T;
+		User actual = UC.getCurrentUser();
+		assertEquals(expected, actual);
 	}
 	
 	@AfterClass
