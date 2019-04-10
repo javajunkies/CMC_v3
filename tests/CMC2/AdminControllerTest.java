@@ -36,9 +36,9 @@ public class AdminControllerTest {
 
 	@Test
 	public void testLoginValid() {
-		int login = ac.login("juser","user");
+		int login = ac.login("nadmin","admin");
 		assertEquals("Login Successful",0,login);
-		ac.logoff();
+		
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
@@ -530,23 +530,13 @@ public class AdminControllerTest {
 	
 	@Test
 	public void testDeactivateUser() {
-		int deactivate = ac.deactivateUser("ladmin");
-		assertTrue("ladmin deactivated.", deactivate != -1);
-		ac.editUser("luser","luser","luser","password1",'U','Y');
+		db.adminEditUser("User John","User","juser","user",'u','Y');
+		int deactivate = ac.deactivateUser("juser");
+		assertEquals(deactivate, 1);
 	}
-
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void testDeactivateUserInvalidUsername() {
-		ac.deactivateUser("dogs");
-	}
-	
-	
-	
 	
 	
 	@Test
-
 	public void testDeleteUser() {
 		int delete = ac.deleteUser("tester2");
 		assertTrue("User deleted", delete > 0);

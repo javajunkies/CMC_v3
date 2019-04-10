@@ -227,15 +227,17 @@ public class DBControllerTest {
 	@Test
 	public void getAllUniversitiesTest() {
 		int actualResult = db.getAllUniversities().size();
-		int expResult = 179;
-		assertTrue("There are 179 universities", (actualResult == expResult));
+		int expResult = 186;
+		//assertEquals(actualResult, expResult);
+		assertTrue("There are 186 universities", (actualResult == expResult));
 	}
 	
 	@Test
 	public void viewExistingUniversityTest() {
 		University expUniversity = new University("Abilene Christian University", "Texas", "Suburban", "private", 10000, 50, -1, -1, 12088, 70, 4000, 90, 80, 2, 3, 3);
 		University actualUniversity = db.viewExistingUniversity("Abilene Christian University");
-		assertTrue("Universities are the same", (expUniversity.toString() == actualUniversity.toString()));
+		assertEquals(expUniversity.toString(), actualUniversity.toString());
+		//assertTrue("Universities are the same", (expUniversity.toString() == actualUniversity.toString()));
 	}
 	
 	@Test
