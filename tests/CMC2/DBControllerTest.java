@@ -125,6 +125,47 @@ public class DBControllerTest {
 	}
 	
 	@Test
+	public void alreadyOnaddToSavedTest() {
+		db.createUser("TestAddtesting", "ToSaved", "testAdd", "Password1", 'u');
+		int expected = -1;
+		db.addToSaved("testAddtesting", "Augsburg");
+		int actual = db.addToSaved("testAddtesting", "Augsburg");
+		assertTrue("Should return " + expected + " but returned " + actual, expected == actual);
+	}
+	
+	@Test
+	public void InvalidSchooladdToSavedTest() {
+		db.createUser("TestAddtest", "ToSaved", "testAdd", "Password1", 'u');
+		int expected = -1;
+		int actual = db.addToSaved("testAddtest", "fdsa");
+		assertTrue("Should return " + expected + " but returned " + actual, expected == actual);
+	}
+	
+	@Test
+	public void NoUnivaddToSavedTest() {
+		db.createUser("TestAddtest", "ToSaved", "testAdd", "Password1", 'u');
+		int expected = -1;
+		int actual = db.addToSaved("testAddtest", "");
+		assertTrue("Should return " + expected + " but returned " + actual, expected == actual);
+	}
+	
+	@Test
+	public void NoUseraddToSavedTest() {
+		db.createUser("TestAddtest", "ToSaved", "testAdd", "Password1", 'u');
+		int expected = -1;
+		int actual = db.addToSaved("", "Bard");
+		assertTrue("Should return " + expected + " but returned " + actual, expected == actual);
+	}
+	
+	@Test
+	public void InvalidUseraddToSavedTest() {
+		db.createUser("TestAddtest", "ToSaved", "testAdd", "Password1", 'u');
+		int expected = -1;
+		int actual = db.addToSaved("fdadf", "Bard");
+		assertTrue("Should return " + expected + " but returned " + actual, expected == actual);
+	}
+	
+	@Test
 	public void deleteUserTest() {
 		db.createUser("john", "west", "jwest", "Password2", 'u');
 		int expected = 1;
@@ -161,8 +202,28 @@ public class DBControllerTest {
 	
 	@Test
 	public void deactivateUserTest() {
-		db.deactivateUser("luser");
+		db.createUser("john", "sals", "jsals", "Password1", 'u');
+		int expected = 1;
+		int actual = db.deactivateUser("jsals");
+		assertEquals(expected, actual);
 	}
+	
+	@Test
+	public void InvalidUsernamedeactivateUserTest() {
+		int expected = -1;
+		int actual = db.deactivateUser("fdnsof");
+		assertEquals(expected, actual);
+	}
+	
+	@Test
+	public void alreadydeactivateUserTest() {
+		int expected = 1;
+		db.createUser("john", "sals", "jsals", "Password1", 'u');
+		db.deactivateUser("jsals");
+		int actual = db.deactivateUser("jsals");
+		assertEquals(expected, actual);
+	}
+
 
 	
 	@Test
@@ -267,6 +328,8 @@ public class DBControllerTest {
 	{
 		db.deleteUser("username");
 		db.deleteUser("testAdd");
+		db.deleteUser("testAddtest");
+		db.deleteUser("testAddtesting");
 		db.removeUniversity("testSchool");
 		db.removeUniversity("CSBSJU");
 		db.removeUniversity("Joe Town U");
