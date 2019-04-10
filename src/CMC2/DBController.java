@@ -888,8 +888,7 @@ public class DBController {
 	 * sort a users saved schools by either number of students, expenses, or
 	 * admission rate, based on what the user selects
 	 * 
-	 * @param username
-	 *            the username supplied for retrieving a list of saved schools
+	 * @param username the username supplied for retrieving a list of saved schools
 	 * 
 	 * @return ArrayList list sorted by the number of students
 	 */
