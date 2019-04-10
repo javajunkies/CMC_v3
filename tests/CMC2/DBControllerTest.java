@@ -342,6 +342,7 @@ public class DBControllerTest {
 		db.removeUniversity("CSBSJU");
 		db.removeUniversity("Joe Town U");
 		db.deleteUser("ben");
+		db.deleteUser("jsals");
 	}
 	
 }
