@@ -571,7 +571,7 @@ public class DBController {
     char status = userInfo[5].charAt(0);
     
     User user1 = new User(first, last, user, password, userType, status);
-    return user1;  
+    return user1; 
   }
   
   

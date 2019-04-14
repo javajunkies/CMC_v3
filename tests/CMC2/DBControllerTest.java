@@ -247,10 +247,17 @@ public class DBControllerTest {
 	
 	@Test
 	public void viewUserTest() {
-		User user = new User("ben", "west", "benwest", "slimshady12", 'u', 'Y');
+		User user1 = new User("ben", "west", "benwest", "slimshady12", 'u', 'Y');
 		User result = db.viewUser("benwest");
-		assertTrue("View User Test: ", user.toString().equals(result.toString()));
+		assertTrue("View User Test: ", user1.toString().equals(result.toString()));
 	}
+	
+//	@Test
+//	public void viewUserInvalidTest() {
+//		int expected = 1; 
+//		User result = db.viewUser("benwest99");
+//		assertTrue("View User Test: ", expected == result);
+//	}
 	
 	@Test 
 	public void isUserTestValid() {
