@@ -15,7 +15,7 @@ import CMC2.DBController;
 import CMC2.University;
 import CMC2.UserInteraction;
 
-public class UseCaseTesting {
+public class UseCaseTest {
 
 	private static UserInteraction ui;
 	private static AdminInteraction ai;
